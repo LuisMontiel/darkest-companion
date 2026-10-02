@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { getSelectedLocationAndLength } from '../ducks/mission';
 import { getMissionProvisions } from '../data/provisions';
@@ -62,11 +62,11 @@ export function MissionProvisions({selectedLocation, selectedLength}) {
     <div className='provisions-total'>
       <span className='provisions-total-label'>Total Cost:</span>
       &nbsp;
-      <img src='./icons/coin.png'/>
+      <img src='./icons/coin.png' alt="" />
       &nbsp;
       <span className='provisions-total-amount'>{provisions.totalCost.toLocaleString()}</span>
     </div>
-  </section>
+  </section>;
 }
 
 export default connect(getSelectedLocationAndLength)(MissionProvisions);

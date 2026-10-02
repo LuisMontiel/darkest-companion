@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { getSelectedLocation } from '../ducks/mission';
 import { getCuriosForLocation } from '../data/curios';
@@ -59,7 +59,7 @@ export function LocationCurios({selectedLocation}) {
   return <section className="level-curios">
     <h1 className='centered'>Curios</h1>
     {curios.map(renderCurio)}
-  </section>
+  </section>;
 }
 
 export default connect(getSelectedLocation)(LocationCurios);

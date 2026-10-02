@@ -6,5 +6,5 @@ export function capitalize(text) {
 }
 
 export default function Capitalize({text}) {
-  return <span>{capitalize(text)}</span>
+  return <span>{capitalize(text)}</span>;
 }

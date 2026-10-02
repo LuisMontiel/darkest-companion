@@ -1,3 +1,27 @@
-public/bundle.js
-public/bundle.js.map
-node_modules
+# Dependencies and generated output
+/node_modules/
+/dist/
+/coverage/
+/public/bundle.js
+/public/bundle.js.map
+
+# Local environment files
+/.env
+/.env.*
+!/.env.example
+
+# Private keys and keystores
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.swp

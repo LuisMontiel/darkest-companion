@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { getSelectedLocation } from '../ducks/mission';
 import { getTipsForLocation } from '../data/tips';
@@ -37,7 +37,7 @@ export function LocationTips({selectedLocation}) {
     <div className='tips-category-list'>
       {tipCategories.map(category => renderTipsCategory(category, tips[category]))}
     </div>
-  </section>
+  </section>;
 }
 
 export default connect(getSelectedLocation)(LocationTips);
