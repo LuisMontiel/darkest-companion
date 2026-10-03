@@ -15,7 +15,7 @@ function renderTipsCategory(category, tips) {
   if (!tips.length) {
     return null;
   }
-  return <div className='tips-category-item' key={`category-${category}`}>
+  return <div className={`tips-category-item tips-category-item-${category}`} key={`category-${category}`}>
     <div className='tips-cell'>
       <div className={`tips-category tips-category-${category}`}>
         <Capitalize text={category}/>

@@ -1,6 +1,12 @@
 @font-face {font-family: 'DwarvenAxeBB';src: url('./fonts/3073CA_0_0.eot');src: url('./fonts/3073CA_0_0.eot?#iefix') format('embedded-opentype'),url('./fonts/3073CA_0_0.woff2') format('woff2'),url('./fonts/3073CA_0_0.woff') format('woff'),url('./fonts/3073CA_0_0.ttf') format('truetype');}
 @font-face {font-family: 'DwarvenAxeBB-Italic';src: url('./fonts/3073CA_1_0.eot');src: url('./fonts/3073CA_1_0.eot?#iefix') format('embedded-opentype'),url('./fonts/3073CA_1_0.woff2') format('woff2'),url('./fonts/3073CA_1_0.woff') format('woff'),url('./fonts/3073CA_1_0.ttf') format('truetype');}
 
+:root {
+  --section-background: #25221D;
+  --section-border: rgba(201, 181, 105, 0.72);
+  --section-shadow: 0 4px 14px rgba(0, 0, 0, 0.75);
+}
+
 /*
 
 grey: #5D5A50
@@ -8,7 +14,7 @@ yellow: #C9B569
 */
 
 body {
-  background: #2F2F2F;
+  background: #000 url('./site-background-dark.png') top center / 100% auto no-repeat fixed;
   color: #A0A0A0;
   font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
   padding: 5px;
@@ -24,9 +30,22 @@ h1 {
   margin: 10px 0 5px 0;
 }
 
+.location-selector,
+.length-selector,
+.level-provisions,
+.location-tips {
+  padding: 8px 10px;
+  background: var(--section-background);
+  border: 1px solid var(--section-border);
+  border-radius: 4px;
+  box-shadow: var(--section-shadow);
+}
+
 .location-selector, .length-selector, .level-provisions {
-  width: 320px; /* = 8 * 40 */
-  margin-bottom: 20px;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  margin-bottom: 12px;
 }
 
 .torch-radio-group > div {
@@ -72,16 +91,21 @@ h1 {
 }
 
 .provisions-list {
+  --provision-slot-width: 45px;
+  --provision-slot-height: 90px;
   display: flex;
   flex-wrap: wrap;
-  width: 320px;
-  height: 160px;
+  width: calc(var(--provision-slot-width) * 8);
+  height: calc(var(--provision-slot-height) * 2);
+  margin: 0 auto;
   background: url('./provisions_background.png') no-repeat 0 0;
+  background-size: 100% 100%;
 }
 
 .provision-item {
   position: relative;
-  height: 80px;
+  width: var(--provision-slot-width);
+  height: var(--provision-slot-height);
 }
 
 .provision-quantity {
@@ -94,7 +118,19 @@ h1 {
 }
 
 .provision-icon {
-  width: 40px;
+  width: 100%;
+}
+
+.provision-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.provision-link:focus-visible,
+.curio-activator-link:focus-visible {
+  outline: 1px solid #C9B569;
+  outline-offset: 1px;
 }
 
 .provisions-total {
@@ -108,10 +144,27 @@ h1 {
   color: #C9B569;
 }
 
-.selectorsAndProvisions {
+.mission-layout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(342px, 1fr));
+  grid-template-areas:
+    "controls tips guide"
+    "curios curios curios";
+  gap: 16px;
+  align-items: start;
+  max-width: 1800px;
+  margin: 0 auto 20px;
+}
+
+.mission-controls {
+  grid-area: controls;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.mission-controls > :last-child {
+  margin-bottom: 0;
 }
 
 .centered {
@@ -119,14 +172,27 @@ h1 {
 }
 
 #logo {
-  max-width: 300px;
+  display: block;
+  width: 250px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 32px;
 }
 
 .curio {
   display: flex;
   flex-wrap: wrap;
-  margin: 10px 0 30px 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 10px 12px;
   align-items: center;
+  background: var(--section-background);
+  border: 1px solid var(--section-border);
+  border-radius: 4px;
+  box-shadow: var(--section-shadow);
 }
 
 .curio-cell {
@@ -138,6 +204,11 @@ h1 {
 .curio-activator {
   width: 40px;
   margin: 0 5px;
+}
+
+.curio-activator-link {
+  display: inline-flex;
+  align-items: center;
 }
 
 .curio-cell-container {
@@ -162,6 +233,18 @@ h1 {
   color: #C9B569;
   margin-bottom: 10px;
 }
+
+.curio-name a,
+.curio-name a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.curio-name a:hover,
+.curio-name a:focus-visible {
+  text-decoration: underline;
+}
+
 .curio-with {
   color: #C9B569;
 }
@@ -177,7 +260,31 @@ h1 {
 }
 
 .location-tips {
-  width: 500px;
+  grid-area: tips;
+  width: auto;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.level-curios {
+  grid-area: curios;
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.level-curios > h1 {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: fit-content;
+  margin: 10px auto 15px;
+  padding: 8px 28px;
+  background: var(--section-background);
+  border: 1px solid var(--section-border);
+  border-radius: 4px;
+  box-shadow: var(--section-shadow);
 }
 
 .tips-category-list {
@@ -189,6 +296,23 @@ h1 {
 .tips-category-item {
   margin: 10px 5px;
   width: 150px;
+  padding: 8px;
+  border-radius: 3px;
+}
+
+.tips-category-item-effective {
+  background: #153820;
+  border: 1px solid #4B9B5C;
+}
+
+.tips-category-item-ineffective {
+  background: #3F2F12;
+  border: 1px solid #B88636;
+}
+
+.tips-category-item-dangers {
+  background: #431B1B;
+  border: 1px solid #B84B4B;
 }
 
 .tips-category {
@@ -197,15 +321,15 @@ h1 {
 }
 
 .tips-category-effective {
-  color: green;
+  color: #73E087;
 }
 
 .tips-category-ineffective {
-  color: orange;
+  color: #FFD06E;
 }
 
 .tips-category-dangers {
-  color: red;
+  color: #FF7B7B;
 }
 
 .tips-label {
@@ -219,4 +343,181 @@ h1 {
 .tips-details {
   padding-left: 5px;
   font-size: 12px;
+}
+
+.mission-guidance {
+  grid-area: guide;
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  background: var(--section-background);
+  border: 1px solid var(--section-border);
+  border-radius: 4px;
+  box-shadow: var(--section-shadow);
+}
+
+.mission-guidance > h1 {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(201, 181, 105, 0.35);
+}
+
+.guidance-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  align-items: start;
+}
+
+.mission-guidance h2 {
+  margin: 0 0 12px;
+  color: #C9B569;
+  font-family: 'DwarvenAxeBB';
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.length-guidance {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(201, 181, 105, 0.35);
+}
+
+.recommended-heroes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 10px;
+}
+
+.recommended-hero {
+  display: flex;
+  min-width: 0;
+  gap: 10px;
+  align-items: center;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(201, 181, 105, 0.22);
+  border-radius: 3px;
+}
+
+.recommended-hero-image {
+  display: flex;
+  flex: 0 0 108px;
+  width: 108px;
+  height: 124px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.recommended-hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.recommended-hero-copy {
+  min-width: 0;
+}
+
+.recommended-hero h3 {
+  margin: 0 0 4px;
+  color: #C9B569;
+  font-size: 16px;
+}
+
+.recommended-hero h3 a,
+.recommended-hero h3 a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.recommended-hero h3 a:hover {
+  text-decoration: underline;
+}
+
+.recommended-hero p,
+.length-summary {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.recommendation-badge {
+  display: inline-block;
+  margin-bottom: 4px;
+  padding: 2px 5px;
+  color: #FFD06E;
+  background: #3F2F12;
+  border-radius: 2px;
+  font-size: 11px;
+}
+
+.guidance-notes {
+  margin: 12px 0;
+  padding-left: 20px;
+  line-height: 1.45;
+}
+
+.guidance-notes li + li {
+  margin-top: 5px;
+}
+
+.camp-count {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 4px 0 10px;
+  color: #C9B569;
+  font-family: 'DwarvenAxeBB';
+  font-size: 20px;
+}
+
+.camp-count-number {
+  font-size: 34px;
+}
+
+@media (max-width: 760px) {
+  .mission-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "controls"
+      "tips"
+      "guide"
+      "curios";
+  }
+
+  .mission-controls {
+    width: 100%;
+    max-width: none;
+    justify-self: center;
+  }
+
+  .provisions-list {
+    --provision-slot-width: 40px;
+    --provision-slot-height: 80px;
+  }
+}
+
+@media (max-width: 351px) {
+  .provisions-list {
+    --provision-slot-width: 36px;
+    --provision-slot-height: 72px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1189px) {
+  .mission-layout {
+    grid-template-columns: repeat(2, minmax(342px, 1fr));
+    grid-template-areas:
+      "controls tips"
+      "guide guide"
+      "curios curios";
+  }
+
+  .provisions-list {
+    --provision-slot-width: 42px;
+    --provision-slot-height: 84px;
+  }
+
 }

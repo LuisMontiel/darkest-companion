@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getSelectedLocationAndLength } from '../ducks/mission';
 import { getMissionProvisions } from '../data/provisions';
+import { getProvisionWikiUrl } from '../data/provisionLinks';
 
 const types = [
   'firewood',
@@ -30,8 +31,15 @@ function stacks(quantity, stackSize) {
 }
 
 function renderProvisionStack(provision, quantity, index) {
+  const wikiUrl = getProvisionWikiUrl(provision.label);
+  const icon = <img className='provision-icon' src={provision.icon(quantity)} alt={provision.label}/>;
+
   return <div className="provision-item" key={`provision-${provision.label}-${index}`}>
-    <img className='provision-icon' src={provision.icon(quantity)} alt={provision.label}/>
+    {wikiUrl
+      ? <a className='provision-link' href={wikiUrl} target='_blank' rel='noreferrer' aria-label={`Open ${provision.label} on the official wiki`}>
+          {icon}
+        </a>
+      : icon}
     <div className='provision-quantity'>{quantity > 1 ? quantity : ''}</div>
   </div>
 }
